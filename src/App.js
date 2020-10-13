@@ -43,7 +43,8 @@ class App extends React.Component{
       semvirgula: 'true',
       atual: '0',
       anterior: '0',
-      operacao: ''
+      operacao: '',
+      memo: []
     };
   }
   atAtual(num) {
@@ -81,12 +82,12 @@ class App extends React.Component{
   Equal(){
     if (this.state.operacao == '/') {
       this.setState((state, props) =>(
-        {anterior:  (mult(this.state.anterior,this.state.atual)).toString()}
+        {anterior:  (div(this.state.anterior,this.state.atual)).toString()}
       )
     )};
     if (this.state.operacao == 'x') {
       this.setState((state, props) =>(
-        {anterior:  (div(this.state.anterior,this.state.atual)).toString()}
+        {anterior:  (mult(this.state.anterior,this.state.atual)).toString()}
       )
     )};
     if (this.state.operacao == '-') {
@@ -99,6 +100,33 @@ class App extends React.Component{
         {anterior:  (soma(this.state.anterior,this.state.atual)).toString()}
       )
     )};
+  }
+  apallMemo(){
+    this.setState((state, props) =>(
+        {memo: []}
+    ));
+  }
+  apMemo(p){
+    this.setState((state, props) =>(
+        {memo: this.state.memo.splice(p,1)}
+    ));
+  }
+  recMemo(p){
+    let mem = this.state.memo[p];
+    this.setState((state, props) =>(
+        {memo: this.state.memo.splice(p,1)}
+    ));
+    return mem;
+  }
+  addMemo(){
+    this.setState((state, props) =>(
+        {memo: this.state.memo.push(state.atual)}
+    ));
+  }
+  savMemo(){
+    this.setState((state, props) =>(
+        {memo: this.state.memo.push(state.anterior)}
+    ));
   }
 
   render(){
@@ -115,28 +143,49 @@ class App extends React.Component{
         <div class="teclado">
           <table>
             <tr>
+              <td><button onClick={() => this.apMemo(0)}>MC</button></td>
+              <td><button onClick={() => this.recMemo(0)}>MR</button></td>
+              <td><button onClick={() => this.addMemo()}>M+</button></td>
+              <td><button onClick={() => this.savMemo()}>MS</button></td>
+              <td>this.state.memo[0]</td>
+              <td><button onClick={() => this.apMemo(0)}>MC</button></td>
+              <td><button onClick={() => this.recMemo(0)}>MR</button></td>
+            </tr>
+            <tr>
               <td><button onClick={() => this.atAtual('7')}>7</button></td>
               <td><button onClick={() => this.atAtual('8')}>8</button></td>
               <td><button onClick={() => this.atAtual('9')}>9</button></td>
               <td><button onClick={() => this.atOp('/')}>&divide;</button></td>
+              <td>this.state.memo[1]</td>
+              <td><button onClick={() => this.apMemo(1)}>MC</button></td>
+              <td><button onClick={() => this.recMemo(1)}>MR</button></td>
             </tr>
             <tr>
               <td><button onClick={() => this.atAtual('4')}>4</button></td>
               <td><button onClick={() => this.atAtual('5')}>5</button></td>
               <td><button onClick={() => this.atAtual('6')}>6</button></td>
               <td><button onClick={() => this.atOp('x')}>&times;</button></td>
+              <td>this.state.memo[2]</td>
+              <td><button onClick={() => this.apMemo(2)}>MC</button></td>
+              <td><button onClick={() => this.recMemo(2)}>MR</button></td>
             </tr>
             <tr>
               <td><button onClick={() => this.atAtual('1')}>1</button></td>
               <td><button onClick={() => this.atAtual('2')}>2</button></td>
               <td><button onClick={() => this.atAtual('3')}>3</button></td>
               <td><button onClick={() => this.atOp('-')}>-</button></td>
+              <td>this.state.memo[3]</td>
+              <td><button onClick={() => this.apMemo(3)}>MC</button></td>
+              <td><button onClick={() => this.recMemo(3)}>MR</button></td>
             </tr>
             <tr>
               <td><button onClick={() => this.adVir()}>,</button></td>
               <td><button onClick={() => this.atAtual('0')}>0</button></td>
               <td><button onClick={() => this.apAtual()}>AC</button></td>
               <td><button onClick={() => this.atOp('+')}>+</button></td>
+              <td>this.state.memo[4]</td>
+              <td><button onClick={() => this.apMemo(4)}>MC</button></td>
+              <td><button onClick={() => this.recMemo(4)}>MR</button></td>
             </tr>
             <tr>
               <td colspan="4"><button onClick={() => this.Equal()}>=</button></td>
