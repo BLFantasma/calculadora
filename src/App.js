@@ -3,20 +3,16 @@ import logo from './logo.svg';
 import './App.css';
 
 function mult(x,y) {
-  return x * y;
+  return parseFloat(x) * parseFloat(y);
 }
 function div(x,y) {
-  return x / y;
+  return parseFloat(x) / parseFloat(y);
 }
 function soma(x,y) {
-  return x + y;
+  return parseFloat(x) + parseFloat(y);
 }
 function sub(x,y) {
-  return x - y;
-}
-let num = {
-  decimal: 0,
-  inteiro: 0
+  return parseFloat(x) - parseFloat(y);
 }
 class NoPilha {
   constructor(dado, proximo) {
@@ -55,6 +51,11 @@ class App extends React.Component{
         {atual: state.atual + num}
     ));
   }
+  apAtual() {
+    this.setState((state, props) =>(
+        {atual: '0'}
+    )); 
+  }
   adVir() {
     if (this.state.semvirgula){
       this.setState((state, props) =>(
@@ -80,22 +81,22 @@ class App extends React.Component{
   Equal(){
     if (this.state.operacao == '/') {
       this.setState((state, props) =>(
-        {anterior:  (parseFloat(this.state.anterior)/parseFloat(this.state.atual)).toString()}
+        {anterior:  (mult(this.state.anterior,this.state.atual)).toString()}
       )
     )};
     if (this.state.operacao == 'x') {
       this.setState((state, props) =>(
-        {anterior:  (parseFloat(this.state.anterior)*parseFloat(this.state.atual)).toString()}
+        {anterior:  (div(this.state.anterior,this.state.atual)).toString()}
       )
     )};
     if (this.state.operacao == '-') {
       this.setState((state, props) =>(
-        {anterior:  (parseFloat(this.state.anterior)-parseFloat(this.state.atual)).toString()}
+        {anterior:  (sub(this.state.anterior,this.state.atual)).toString()}
       )
     )};
     if (this.state.operacao == '+') {
       this.setState((state, props) =>(
-        {anterior:  (parseFloat(this.state.anterior)+parseFloat(this.state.atual)).toString()}
+        {anterior:  (soma(this.state.anterior,this.state.atual)).toString()}
       )
     )};
   }
